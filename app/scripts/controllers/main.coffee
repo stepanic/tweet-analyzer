@@ -36,4 +36,51 @@ angular.module('tweetAnalyzerApp')
             howMany: null
 
 
+      $scope.analyzeInProgress = null
+      $scope.StartAnalyze = () ->
+        # TODO call backend
+        $scope.analyzeInProgress = true
+
+        # after get result $scope.analyzeInProgress = false
+
+
+      $scope.model.classes = {
+        0: 'Sport NEWS'
+        1: 'NEWS'
+        2: 'Private message'
+        3: 'Opinion'
+        4: 'Music'
+      }
+
+
+
+      $scope.model.tweets = null
+      ###
+      $scope.model.tweets = [
+        {
+          id: 1
+          text: 'Ovo je tweet sa bla bla bla 123'
+          class_id: 1
+        }
+        {
+          id: 2
+          text: 'Ovo je tweet sa bla bla bla 2323123'
+          class_id: 2
+        }
+        {
+          id: 3
+          text: 'Ovo je tweet sa bla bla bla 343435 2323123'
+          class_id: 2
+        }
+        {
+          id: 4
+          text: 'Ovo je tweet sa bla bla bla 56565 343435 2323123'
+          class_id: 0
+        }
+
+      ]
+      ###
+
+
+
   ]
