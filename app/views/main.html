@@ -16,6 +16,14 @@
                                     Analyze <span class="glyphicon glyphicon-play"></span>
                                 </button>
 
+                                <button
+                                  style="float:right; margin-right:5px"
+                                  class="btn btn-danger btn-lg"
+                                  ng-click="ResetAnalyze()"
+                                  ng-show="analyzeInProgress == false">
+                                    <span class="glyphicon glyphicon-backward"></span>
+                                </button>
+
                                 <label>
                                   <h3 style="margin-top:0px;">Select Twitter sources!</h3>
                                   <h4>
@@ -30,7 +38,7 @@
                                     <tr>
                                       <th>No.</th>
                                       <th>Source</th>
-                                      <th>How many</th>
+                                      <th colspan="2">How many</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -50,7 +58,7 @@
                                       <td style="width:150px" ng-class="{'has-error':!source.howMany}">
                                         <input type="number"
                                         min="0"
-                                        max="100"
+                                        max="200"
                                         ng-required="true"
                                         ng-model="source.howMany"
                                         ng-pattern="/^[0-9]+$/"
@@ -58,10 +66,16 @@
                                         class="form-control"
                                         placeholder="INTEGER" >
                                       </td>
+                                      <td>
+                                        <span
+                                          style="cursor:pointer"
+                                          class="glyphicon glyphicon-remove"
+                                          ng-click="RemoveSource(source)"></span>
+                                      </td>
                                     </tr>
                                     <tr>
                                       <td colspan="3">
-                                        <button class="btn btn-primary btn-block" ng-click="AddNewSource()">Add new source!</button>
+                                        <button class="btn btn-primary btn-block" ng-click="AddNewSource(); CheckValidation()">Add new source!</button>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -73,6 +87,11 @@
                                     </tr>
                                   </tfoot>
                                 </table>
+
+                                <div ng-show="analyzeInProgress == false" >
+                                  <h3><b>Analyzer results</b> - Tweets per Class</h3>
+                                  <highchart id="chartMain" config="chartConfig" style="width:100%" class=""></highchart>
+                                </div>
 
 
                             </div>
@@ -101,7 +120,7 @@
                             </h2>
                         </div>
 
-                        <div ng-show="model.tweets && analyzeInProgress == false" >
+                        <div ng-show="analyzeInProgress == false" >
                           <h3 style="margin-top:0px;">Fetched tweets from selected sources:</h3>
                           <table class="table table-striped">
                             <thead>
@@ -114,19 +133,42 @@
                                     ng-show="tableFetchedTweets" class="btn btn-block btn-warning" >Hide tweets</button>
                                   <button
                                     ng-click="tableFetchedTweets=true"
-                                    ng-show="!tableFetchedTweets" class="btn btn-block btn-success" >Show tweets</button>
+                                    ng-show="!tableFetchedTweets && model.tweets.length > 0" class="btn btn-block btn-success" >Show tweets</button>
                                 </th>
                               </tr>
                             </thead>
                             <tbody ng-show="tableFetchedTweets">
                               <tr ng-repeat="tweet in model.tweets" >
                                 <td>{{$index + 1}}</td>
-                                <td colspan="2">{{tweet.text}}</td>
+                                <td colspan="2">{{tweet.tweet_text}}</td>
+                              </tr>
+                            </tbody>
+                            <tbody ng-show="!tableFetchedTweets">
+                              <tr>
+                                <td colspan="3">
+                                  <b>{{model.tweets.length}}</b> tweets hidden.
+                                </td>
                               </tr>
                             </tbody>
                           </table>
 
                           <h3 style="margin-top:0px;">Analyzed tweets:</h3>
+                          <h4><b>Choose analyze algorithm:</b></h4>
+                          <div class="form-group" >
+                            <span ng-repeat="algorithm in model.analyzeAlgorithms" >
+
+                                <input type="radio"
+                                  ng-model="model.analyzeAlgorithm"
+                                  name="model.analyzeAlgorithm"
+                                  ng-value="algorithm.value"
+                                  ng-change="RefreshGraph()"
+                                  >
+                                  <span style="margin-left:5px; margin-right:5px;" >{{algorithm.title}}</span>
+
+                            </span>
+                          </div>
+
+
                           <table class="table table-striped">
                             <thead>
                               <tr>
@@ -139,15 +181,22 @@
                                     ng-show="tableAnalyzedTweets" class="btn btn-block btn-warning" >Hide tweets</button>
                                   <button
                                     ng-click="tableAnalyzedTweets=true"
-                                    ng-show="!tableAnalyzedTweets" class="btn btn-block btn-success" >Show tweets</button>
+                                    ng-show="!tableAnalyzedTweets  && model.tweets.length > 0" class="btn btn-block btn-success" >Show tweets</button>
                                 </th>
                               </tr>
                             </thead>
                             <tbody ng-show="tableAnalyzedTweets">
                               <tr ng-repeat="tweet in model.tweets" >
                                 <td>{{$index + 1}}</td>
-                                <td>{{model.classes[tweet.class_id]}}</td>
-                                <td colspan="2">{{tweet.text}}</td>
+                                <td>{{model.classes[tweet.class_id[model.analyzeAlgorithm]]}}</td>
+                                <td colspan="2">{{tweet.tweet_text}}</td>
+                              </tr>
+                            </tbody>
+                            <tbody ng-show="!tableAnalyzedTweets">
+                              <tr>
+                                <td colspan="4">
+                                  <b>{{model.tweets.length}}</b> tweets hidden.
+                                </td>
                               </tr>
                             </tbody>
                           </table>

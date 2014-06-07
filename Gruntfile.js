@@ -323,8 +323,11 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
-            'fonts/*'
+            'images/{,*/}*.{webp,gif}',
+            'fonts/*',
+            'images/*',
+            'scripts/vendor/*',
+            'bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*'
           ]
         }, {
           expand: true,

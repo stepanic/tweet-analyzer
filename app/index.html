@@ -9,20 +9,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css styles/vendor.css -->
+    <!-- build:css({.tmp,app}) styles/vendor.css -->
+    <link rel="stylesheet" href="styles/bootstrap.css">
     <!-- bower:css -->
     <!-- endbower -->
-
     <!-- endbuild -->
-
-
 
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-
-
-
 
   </head>
   <body ng-app="tweetAnalyzerApp">
@@ -49,6 +44,9 @@
     <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
+
+
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -70,11 +68,15 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <!-- endbower -->
+    <script src="bower_components/highcharts-ng/src/highcharts-ng.js"></script>
     <!-- endbuild -->
+
+    <script src="scripts/vendor/highstock.src.js"></script>
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/services/analyzer.js"></script>
         <!-- endbuild -->
 </body>
 </html>
