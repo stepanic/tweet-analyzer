@@ -3,3 +3,6 @@ dist
 .tmp
 .sass-cache
 app/bower_components
+!bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/glyphicons-halflings-regular.woff
+!bower_components/bootstrap-sass-official/vendor/a…nts/bootstrap/glyphicons-halflings-regular.svg
+
