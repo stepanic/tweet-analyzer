@@ -177,22 +177,22 @@
                                 <th>Text</th>
                                 <th style="width:120px;">
                                   <button
-                                    ng-click="tableAnalyzedTweets=false"
-                                    ng-show="tableAnalyzedTweets" class="btn btn-block btn-warning" >Hide tweets</button>
-                                  <button
                                     ng-click="tableAnalyzedTweets=true"
-                                    ng-show="!tableAnalyzedTweets  && model.tweets.length > 0" class="btn btn-block btn-success" >Show tweets</button>
+                                    ng-show="!tableAnalyzedTweets" class="btn btn-block btn-warning" >Hide tweets</button>
+                                  <button
+                                    ng-click="tableAnalyzedTweets=false"
+                                    ng-show="tableAnalyzedTweets  && model.tweets.length > 0" class="btn btn-block btn-success" >Show tweets</button>
                                 </th>
                               </tr>
                             </thead>
-                            <tbody ng-show="tableAnalyzedTweets">
+                            <tbody ng-show="!tableAnalyzedTweets">
                               <tr ng-repeat="tweet in model.tweets" >
                                 <td>{{$index + 1}}</td>
                                 <td>{{model.classes[tweet.class_id[model.analyzeAlgorithm]]}}</td>
                                 <td colspan="2">{{tweet.tweet_text}}</td>
                               </tr>
                             </tbody>
-                            <tbody ng-show="!tableAnalyzedTweets">
+                            <tbody ng-show="tableAnalyzedTweets">
                               <tr>
                                 <td colspan="4">
                                   <b>{{model.tweets.length}}</b> tweets hidden.

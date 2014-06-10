@@ -30,7 +30,7 @@ angular.module('tweetAnalyzerApp')
           'value': 2
         }
       ]
-      $scope.model.analyzeAlgorithm = $scope.model.analyzeAlgorithms[1].value
+      $scope.model.analyzeAlgorithm = $scope.model.analyzeAlgorithms[0].value
 
       $scope.model.classes = {
         0: 'Sport NEWS'
@@ -62,23 +62,14 @@ angular.module('tweetAnalyzerApp')
       $scope.analyzeInProgress = null
       $scope.StartAnalyze = () ->
         if $scope.isValid
-
-
+          $scope.analyzeInProgress = true
           Analyzer.execute($scope.model.sources
           , (response) ->
             $scope.model.tweets = response.data
             $scope.RefreshGraph()
+            $scope.analyzeInProgress = false
           )
 
-
-          # TODO call backend
-          $scope.analyzeInProgress = true
-
-          $timeout () ->
-            $scope.analyzeInProgress = false
-          , 1000
-
-        # after get result $scope.analyzeInProgress = false
 
       $scope.ResetAnalyze = () ->
         $scope.analyzeInProgress = null
